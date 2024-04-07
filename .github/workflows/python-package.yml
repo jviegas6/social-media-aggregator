@@ -1,16 +1,17 @@
-name: Python Tox Tests
+name: Python CI
 
 on:
   pull_request:
-    branches:
-      - main  # Assuming 'main' is your default branch
+    branches: [ main ]
+  push:
+    branches: [ main ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8, 3.9, 3.10, 3.11]  # Adjust based on your needs
+        python-version: [3.9, 3.11] # Adjust based on your tox envlist
 
     steps:
     - uses: actions/checkout@v2
@@ -19,11 +20,12 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install tox-conda
-
-    - name: Run Tox
+        
+    - name: Install tox
+      run: python -m pip install --upgrade tox-conda
+      
+    - name: Run tox
+      env:
+        META_SANDBOX_API_KEY: ${{ secrets.META_SANDBOX_API_KEY }}
+        META_API_KEY: ${{ secrets.META_API_KEY }}
       run: tox
