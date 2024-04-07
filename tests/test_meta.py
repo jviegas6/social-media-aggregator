@@ -1,16 +1,17 @@
 import pytest
 import logging
 import os
-from src.exceptions.meta import (
+from src.social_media_aggregator.exceptions.meta import (
     MetaInvalidEndpointException,
     MetaInvalidTokenException,
     MetaApiException,
 )
-from src.regus_social_media.logger import CustomLogger
-from src.regus_social_media.meta import Meta
+from src.social_media_aggregator.logger import CustomLogger
+from src.social_media_aggregator.meta import Meta
 
 sandbox_api_key = os.getenv("META_SANDBOX_API_KEY")
-meta_api_key = os.getenv("META_API_KEY") 
+meta_api_key = os.getenv("META_API_KEY")
+
 
 def test_invalid_api_endpoint_1():
     logger = CustomLogger(
