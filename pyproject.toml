@@ -8,3 +8,18 @@ version = "0.0.1"
 
 [tool.setuptools]
 packages = { find = { where = ["src"] } }
+
+[tool.poetry]
+name = "regus_social_media"
+version = "0.1.0"
+description = "A description of your project"
+authors = ["José Viegas <jviegas6@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+requests = "^2.31.0"
+
+[tool.poetry.dev-dependencies]
+pytest-cov = "^5.0.0"
+# Add your development dependencies here
