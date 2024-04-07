@@ -1,13 +1,16 @@
 import pytest
 import logging
-from exceptions.meta import (
+import os
+from src.exceptions.meta import (
     MetaInvalidEndpointException,
     MetaInvalidTokenException,
     MetaApiException,
 )
-from scripts.logger import CustomLogger
-from scripts.meta import Meta
+from src.regus_social_media.logger import CustomLogger
+from src.regus_social_media.meta import Meta
 
+sandbox_api_key = os.getenv("META_SANDBOX_API_KEY")
+meta_api_key = os.getenv("META_API_KEY") 
 
 def test_invalid_api_endpoint_1():
     logger = CustomLogger(
@@ -54,11 +57,16 @@ def test_get_all_accounts_invalid_1():
         logger_level=logging.DEBUG, logger_name="test"
     ).return_logger()
     meta = Meta(
-        logger=logger, meta_url="https://graph.facebook.com/v19.0", api_key="test"
+        logger=logger,
+        meta_url="https://graph.facebook.com/v19.0",
+        api_key=sandbox_api_key,
     )
     with pytest.raises(MetaApiException) as e:
         meta.get_accounts(api_endpoint="test")
-    assert str(e.value) == "Meta error. API error occurred. Error 400: Bad Request"
+    assert (
+        str(e.value)
+        == "Meta error. API error occurred. Error 400: Bad Request. Meta error message: 'Unsupported get request. Object with ID 'test' does not exist, cannot be loaded due to missing permissions, or does not support this operation. Please read the Graph API documentation at https://developers.facebook.com/docs/graph-api'. Meta error type: 'GraphMethodException'"
+    )
 
 
 def test_get_all_accounts_invalid_2():
@@ -70,4 +78,37 @@ def test_get_all_accounts_invalid_2():
     )
     with pytest.raises(MetaApiException) as e:
         meta.get_accounts()
-    assert str(e.value) == "Meta error. API error occurred. Error 400: Bad Request"
+    assert (
+        str(e.value)
+        == "Meta error. API error occurred. Error 400: Bad Request. Meta error message: 'Invalid OAuth access token - Cannot parse access token'. Meta error type: 'OAuthException'"
+    )
+
+
+def test_permissions_error():
+    logger = CustomLogger(
+        logger_level=logging.DEBUG, logger_name="test"
+    ).return_logger()
+    meta = Meta(
+        logger=logger,
+        meta_url="https://graph.facebook.com/v19.0",
+        api_key=sandbox_api_key,
+    )
+    with pytest.raises(MetaApiException) as e:
+        meta.get_accounts(api_endpoint="act_257329590612540")
+    assert (
+        str(e.value)
+        == "Meta error. API error occurred. Error 400: Bad Request. Meta error message: '(#100) Missing permissions'. Meta error type: 'OAuthException'"
+    )
+
+
+def test_valid_get_account():
+    logger = CustomLogger(
+        logger_level=logging.DEBUG, logger_name="test"
+    ).return_logger()
+    meta = Meta(
+        logger=logger,
+        meta_url="https://graph.facebook.com/v19.0",
+        api_key=meta_api_key,
+    )
+    meta.get_accounts(api_endpoint="me/adaccounts")
+    assert len(meta._all_accounts) > 0

@@ -398,4 +398,8 @@ FodyWeavers.xsd
 *.sln.iml
 
 # Tox
-.tox/
+.tox
+
+# Misc
+.DS_Store
+.env

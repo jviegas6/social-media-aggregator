@@ -1,6 +1,9 @@
 import pytest
-from scripts.logger import CustomLogger
-from exceptions.logger import LoggerInvalidLevelException, LoggerInvalidNameException
+from src.regus_social_media.logger import CustomLogger
+from src.exceptions.logger import (
+    LoggerInvalidLevelException,
+    LoggerInvalidNameException,
+)
 
 
 def test_invalid_logger_name_1():
