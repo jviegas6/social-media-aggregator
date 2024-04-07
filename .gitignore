@@ -399,3 +399,6 @@ FodyWeavers.xsd
 
 # Tox
 .tox
+
+# Misc
+.DS_Store
