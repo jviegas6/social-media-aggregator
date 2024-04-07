@@ -8,7 +8,7 @@ from .exceptions.logger import (
 class CustomLogger:
     """
     Class with methods to create a custom logger
-    and contains the following methods
+    and contains the following methods:
     - _validate_logger: validates the logger name and level
     - _create_formatter: creates a custom formatter for the logger
     - _create_handler: creates a custom handler for the logger
