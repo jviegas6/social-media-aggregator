@@ -1,15 +1,16 @@
 import pytest
 import logging
-from exceptions.meta import (
+import os
+from src.exceptions.meta import (
     MetaInvalidEndpointException,
     MetaInvalidTokenException,
     MetaApiException,
 )
-from scripts.logger import CustomLogger
-from scripts.meta import Meta
+from src.regus_social_media.logger import CustomLogger
+from src.regus_social_media.meta import Meta
 
-sandbox_api_key = "EAAGPGOEaGdIBO0LZAq2fX2eX5f2zb6R1UzGbyzyWQmhd8QZARZAqQboLuk9cqUXCOY9LyelHXH2TbZB2XYYmoVuvbPWnqCbvXhsXZCaAAZCzGjtoEm3ByZBpxZCQ5m14uqC11xqyNnSSr6syRHZACZA5dPkemsr1e6S7OB9V1MgrF8Qbv7a6M2RoSInPj1GeePD1ZCj4eKalsOG"
-
+sandbox_api_key = os.getenv("META_SANDBOX_API_KEY")
+meta_api_key = os.getenv("META_API_KEY") 
 
 def test_invalid_api_endpoint_1():
     logger = CustomLogger(
@@ -107,7 +108,7 @@ def test_valid_get_account():
     meta = Meta(
         logger=logger,
         meta_url="https://graph.facebook.com/v19.0",
-        api_key="EAAGPGOEaGdIBOwGcXMsbcjIsnM0rOhoUKuQDl3ToJ1dmTFJZCSB8hs67jwfGihkzaADAiKZAFce3f02pjT8XStOO9dZC6RblAZBjTLbOFHH6w5mN55GuEVTCTbcrQuZBgolUvA79bNVNrPAg2n1TRwtNJLMyL4pgsldRA982jZAP3w3KZC6uXZAM2MDBbS7D6ZCC4AGlKbCQz",
+        api_key=meta_api_key,
     )
     meta.get_accounts(api_endpoint="me/adaccounts")
     assert len(meta._all_accounts) > 0

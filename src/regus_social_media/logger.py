@@ -1,5 +1,8 @@
 import logging
-from exceptions.logger import LoggerInvalidLevelException, LoggerInvalidNameException
+from src.exceptions.logger import (
+    LoggerInvalidLevelException,
+    LoggerInvalidNameException,
+)
 
 
 class CustomLogger:

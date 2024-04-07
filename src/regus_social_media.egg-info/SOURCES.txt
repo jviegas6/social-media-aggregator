@@ -1,0 +1,15 @@
+LICENSE
+README.md
+pyproject.toml
+src/exceptions/__init__.py
+src/exceptions/logger.py
+src/exceptions/meta.py
+src/regus_social_media/__init__.py
+src/regus_social_media/logger.py
+src/regus_social_media/meta.py
+src/regus_social_media.egg-info/PKG-INFO
+src/regus_social_media.egg-info/SOURCES.txt
+src/regus_social_media.egg-info/dependency_links.txt
+src/regus_social_media.egg-info/top_level.txt
+tests/test_logger.py
+tests/test_meta.py
