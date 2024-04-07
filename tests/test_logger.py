@@ -1,6 +1,6 @@
 import pytest
-from src.regus_social_media.logger import CustomLogger
-from src.exceptions.logger import (
+from src.social_media_aggregator.logger import CustomLogger
+from src.social_media_aggregator.exceptions.logger import (
     LoggerInvalidLevelException,
     LoggerInvalidNameException,
 )

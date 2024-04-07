@@ -1,5 +1,5 @@
 import logging
-from exceptions.logger import (
+from .exceptions.logger import (
     LoggerInvalidLevelException,
     LoggerInvalidNameException,
 )

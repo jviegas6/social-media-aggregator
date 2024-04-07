@@ -1,9 +1,9 @@
-from exceptions.meta import (
+from .exceptions.meta import (
     MetaInvalidEndpointException,
     MetaInvalidTokenException,
     MetaApiException,
 )
-from regus_social_media.logger import CustomLogger
+from .logger import CustomLogger
 from logging import Logger
 import requests
 import json

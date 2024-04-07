@@ -1,0 +1,15 @@
+LICENSE
+README.md
+pyproject.toml
+src/social_media_aggregator/__init__.py
+src/social_media_aggregator/logger.py
+src/social_media_aggregator/meta.py
+src/social_media_aggregator.egg-info/PKG-INFO
+src/social_media_aggregator.egg-info/SOURCES.txt
+src/social_media_aggregator.egg-info/dependency_links.txt
+src/social_media_aggregator.egg-info/top_level.txt
+src/social_media_aggregator/exceptions/__init__.py
+src/social_media_aggregator/exceptions/logger.py
+src/social_media_aggregator/exceptions/meta.py
+tests/test_logger.py
+tests/test_meta.py
