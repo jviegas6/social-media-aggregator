@@ -11,21 +11,21 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.10'] # Adjust based on your tox envlist
-
+        python-version: ['3.9', '3.10', '3.11']
     steps:
     - uses: actions/checkout@v2
     
-    - name: Set up Python
+    - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
         
     - name: Install tox
-      run: python -m pip install --upgrade tox-conda
+      run: python -m pip install --upgrade tox
       
     - name: Run tox
+      run: tox -e py$(echo ${{ matrix.python-version }} | tr -d .)
       env:
         META_SANDBOX_API_KEY: ${{ secrets.META_SANDBOX_API_KEY }}
         META_API_KEY: ${{ secrets.META_API_KEY }}
-      run: tox
+
