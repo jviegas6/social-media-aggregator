@@ -1,8 +1,6 @@
 import logging
-from .exceptions.logger import (
-    LoggerInvalidLevelException,
-    LoggerInvalidNameException,
-)
+from .exceptions.logger import LoggerInvalidArguments, LoggerInvalidLevelException
+from .helpers.helpers import validate_arguments, LoggingLevel
 
 
 class CustomLogger:
@@ -16,37 +14,25 @@ class CustomLogger:
     - return_logger: returns the custom logger
     """
 
+    @validate_arguments(
+        (str, True),
+        (LoggingLevel, True),
+        exception_class=LoggerInvalidArguments,
+        custom_exception_class=LoggerInvalidLevelException,
+    )
     def __init__(self, logger_name: str, logger_level: int):
         self.logger_name = logger_name
         self.logger_level = logger_level
 
-    def _validate_logger(self):
-        if not isinstance(self.logger_name, str):
-            raise LoggerInvalidNameException("Logger name is required")
-        if len(self.logger_name) == 0:
-            raise LoggerInvalidNameException("Logger name is required")
-
-        if self.logger_level not in [
-            logging.DEBUG,
-            logging.INFO,
-            logging.WARNING,
-            logging.ERROR,
-            logging.CRITICAL,
-        ]:
-            raise LoggerInvalidLevelException("Logger level is required")
-
     def _create_formatter(self):
-        self._validate_logger
         return logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
     def _create_handler(self):
-        self._validate_logger
         handler = logging.StreamHandler()
         handler.setFormatter(self._create_formatter())
         return handler
 
     def create_logger(self):
-        self._validate_logger
         logger = logging.getLogger(self.logger_name)
         logger.setLevel(self.logger_level)
         logger.handlers.clear()

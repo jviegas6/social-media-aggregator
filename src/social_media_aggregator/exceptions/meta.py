@@ -10,18 +10,6 @@ class MetaInvalidArguments(BaseMetaException):
         super().__init__(self.message)
 
 
-# class MetaInvalidEndpointException(BaseMetaException):
-#     def __init__(self, message="API endpoint is required"):
-#         self.message = message
-#         super().__init__(self.message)
-
-
-# class MetaInvalidTokenException(BaseMetaException):
-#     def __init__(self, message="API key is required"):
-#         self.message = message
-#         super().__init__(self.message)
-
-
 class MetaApiException(BaseMetaException):
     def __init__(self, status_code, reason, response_payload=None):
         self.status_code = status_code

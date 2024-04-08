@@ -41,10 +41,10 @@ def test_invalid_api_endpoint_3():
         logger_level=logging.DEBUG, logger_name="test"
     ).return_logger()
     with pytest.raises(MetaInvalidArguments) as e:
-        Meta(logger=logger, meta_url=None, api_key=2)
+        Meta(logger=logger, meta_url="None", api_key=2)
     assert (
         str(e.value)
-        == "Meta error. Argument 'meta_url' is mandatory but received None."
+        == "Meta error. Argument 'api_key' with value '2' is not of type <class 'str'>."
     )
 
 

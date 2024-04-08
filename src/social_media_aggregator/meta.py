@@ -23,18 +23,6 @@ class Meta:
         self.api_key = api_key
         self.logger = logger
 
-    # def _validate_arguments(self):
-    #     """
-    #     Validates the initialization of the class
-    #     this test validates if any of the arguments is missing or is an empty string
-    #     """
-    #     if not self.meta_url:
-    #         self.logger.error("Meta URL is required")
-    #         raise MetaInvalidEndpointException()
-    #     if not self.api_key:
-    #         self.logger.error("Meta URL is required")
-    #         raise MetaInvalidTokenException()
-
     @staticmethod
     def get_meta_data(
         logger: Logger, result_list: list, meta_complete_url: str = None
