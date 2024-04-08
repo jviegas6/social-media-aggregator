@@ -1,8 +1,8 @@
 from .exceptions.meta import (
-    MetaInvalidEndpointException,
-    MetaInvalidTokenException,
     MetaApiException,
+    MetaInvalidArguments,
 )
+from .helpers.helpers import validate_arguments
 from .logger import CustomLogger
 from logging import Logger
 import requests
@@ -15,22 +15,25 @@ class Meta:
     Class that contains the methods to perform API calls to Meta API
     """
 
+    @validate_arguments(
+        (Logger, True), (str, True), (str, True), exception_class=MetaInvalidArguments
+    )
     def __init__(self, logger: Logger, meta_url: str, api_key: str):
         self.meta_url = meta_url
         self.api_key = api_key
         self.logger = logger
 
-    def _validate_arguments(self):
-        """
-        Validates the initialization of the class
-        this test validates if any of the arguments is missing or is an empty string
-        """
-        if not self.meta_url:
-            self.logger.error("Meta URL is required")
-            raise MetaInvalidEndpointException()
-        if not self.api_key:
-            self.logger.error("Meta URL is required")
-            raise MetaInvalidTokenException()
+    # def _validate_arguments(self):
+    #     """
+    #     Validates the initialization of the class
+    #     this test validates if any of the arguments is missing or is an empty string
+    #     """
+    #     if not self.meta_url:
+    #         self.logger.error("Meta URL is required")
+    #         raise MetaInvalidEndpointException()
+    #     if not self.api_key:
+    #         self.logger.error("Meta URL is required")
+    #         raise MetaInvalidTokenException()
 
     @staticmethod
     def get_meta_data(
@@ -82,6 +85,7 @@ class Meta:
 
         return result_list
 
+    @validate_arguments((str, True))
     def get_accounts(self, api_endpoint: str = "me/adaccounts"):
         """
         Method to read ad accounts from Meta API
@@ -89,7 +93,7 @@ class Meta:
         Args:
             api_endpoint (str, optional): The Meta endpoint for adaccounts. Defaults to "me/adaccounts".
         """
-        self._validate_arguments()
+        # self._validate_arguments()
         self.logger.info(f"Getting ad accounts from Meta API")
         meta_complete_url = (
             f"{self.meta_url}/{api_endpoint}?access_token={self.api_key}"
@@ -101,3 +105,16 @@ class Meta:
         self.logger.debug(f"Accounts retrieved: {all_accounts}")
 
         self._all_accounts = all_accounts
+
+    # def get_account_details(self, api_endpoint: str, fields_list: list, breakdowns_list: list, level: str = "ad", start_date: str = None, end_date: str = None):
+    #     """_summary_
+
+    #     Args:
+    #         api_endpoint (str): _description_
+    #         fields_list (list): _description_
+    #         breakdowns_list (list): _description_
+    #         level (str, optional): _description_. Defaults to "ad".
+    #         start_date (str, optional): _description_. Defaults to None.
+    #         end_date (str, optional): _description_. Defaults to None.
+    #     """
+    #     self.logger.info(f"Getting account details from Meta API")

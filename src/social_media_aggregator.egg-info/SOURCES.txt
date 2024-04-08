@@ -11,5 +11,6 @@ src/social_media_aggregator.egg-info/top_level.txt
 src/social_media_aggregator/exceptions/__init__.py
 src/social_media_aggregator/exceptions/logger.py
 src/social_media_aggregator/exceptions/meta.py
+src/social_media_aggregator/helpers/helpers.py
 tests/test_logger.py
 tests/test_meta.py
