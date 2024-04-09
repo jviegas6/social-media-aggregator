@@ -24,7 +24,7 @@ class Meta:
         self.logger = logger
 
     @staticmethod
-    def get_meta_data(
+    def _get_meta_data(
         logger: Logger, result_list: list, meta_complete_url: str = None
     ) -> list:
         """
@@ -55,7 +55,7 @@ class Meta:
             logger.info(f"Rate limit exceeded. Waiting 1 minute")
             time.sleep(60)
             logger.info(f"Retrying request")
-            temp_result_list = Meta.get_meta_data(logger, result_list, request_url)
+            temp_result_list = Meta.get_meta_data(logger, [], request_url)
             result_list.extend(temp_result_list)
 
         else:
@@ -88,11 +88,12 @@ class Meta:
         )
         self.logger.info(f"Meta complete URL: {meta_complete_url}")
 
-        all_accounts = Meta.get_meta_data(self.logger, [], meta_complete_url)
+        all_accounts = Meta._get_meta_data(self.logger, [], meta_complete_url)
 
         self.logger.debug(f"Accounts retrieved: {all_accounts}")
 
         self._all_accounts = all_accounts
+        return all_accounts
 
     @validate_arguments(
         (str, True),
@@ -158,5 +159,8 @@ class Meta:
         self.logger.debug(f"Meta complete URL: {meta_complete_url}")
 
         all_details = Meta.get_meta_data(self.logger, [], meta_complete_url)
+
         self.logger.debug(f"Lenght of details: {len(all_details)}")
+
         self._all_details = all_details
+        return all_details
