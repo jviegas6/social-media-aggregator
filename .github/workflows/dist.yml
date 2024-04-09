@@ -15,6 +15,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
+      - name: Check Tag Format
+        id: check_tag
+        run: |
+          if [[ "${{ github.ref_name }}" == *-* ]]; then
+            echo "Pre-release tag detected, stopping the workflow."
+            echo "::set-output name=skip::true"
+          else
+            echo "Stable release tag detected, continuing the workflow."
+            echo "::set-output name=skip::false"
+          fi
+      
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
