@@ -95,6 +95,18 @@ class Meta:
         self._all_accounts = all_accounts
         return all_accounts
 
+    def get_campaigns_start_dates(self, ad_account: str = None):
+        self.logger.info(f"Getting campaign details from Meta API")
+        meta_complete_url = f"{self.meta_url}/{ad_account}/campaigns?fields=id,name,start_time,end_time&access_token={self.api_key}"
+        self.logger.info(f"Meta complete URL: {meta_complete_url}")
+
+        all_campaign_details = Meta._get_meta_data(self.logger, [], meta_complete_url)
+
+        self.logger.debug(f"Accounts retrieved: {all_campaign_details}")
+
+        self._all_campaign_details = all_campaign_details
+        return all_campaign_details
+
     @validate_arguments(
         (str, True),
         (list, False),

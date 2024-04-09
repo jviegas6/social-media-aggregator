@@ -232,3 +232,16 @@ def test_valid_get_account_details():
         end_date=["2024-04-01"],
     )
     assert len(meta._all_details) == 194
+
+
+def test_valid_get_campaigns_start_dates():
+    logger = CustomLogger(
+        logger_level=logging.DEBUG, logger_name="test"
+    ).return_logger()
+    meta = Meta(
+        logger=logger,
+        meta_url="https://graph.facebook.com/v19.0",
+        api_key=meta_api_key,
+    )
+    meta.get_campaigns_start_dates(ad_account="act_2573295906125403")
+    assert len(meta._all_campaign_details) == 174
