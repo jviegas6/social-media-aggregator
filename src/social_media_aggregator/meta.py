@@ -66,7 +66,7 @@ class Meta:
                     logger.info(f"Response has a next page")
                     next_url = response_text["paging"]["next"]
                     temp_result_list = Meta._get_meta_data(
-                        logger, result_list, next_url
+                        logger, [], next_url
                     )
                     result_list.extend(temp_result_list)
 
