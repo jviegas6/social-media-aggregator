@@ -60,7 +60,7 @@ class Meta:
 
         else:
             logger.info(f"Data retrieval was succesfull")
-            result_list.extend(response_text["data"])
+
             if "paging" in response_text.keys():
                 if "next" in response_text["paging"].keys():
                     logger.info(f"Response has a next page")
