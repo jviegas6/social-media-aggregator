@@ -20,10 +20,10 @@ jobs:
         run: |
           if [[ "${{ github.ref_name }}" == *-* ]]; then
             echo "Pre-release tag detected, stopping the workflow."
-            echo "::set-output name=skip::true"
+            echo "skip=true >> $GITHUB_OUTPUT"
           else
             echo "Stable release tag detected, continuing the workflow."
-            echo "::set-output name=skip::false"
+            echo "skip=false >> $GITHUB_OUTPUT"
           fi
       
       - name: Set up Python
