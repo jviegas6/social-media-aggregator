@@ -114,7 +114,6 @@ class Meta:
             meta_complete_url = (
                 f"{self.meta_url}/{ad_account}/campaigns"  # pragma: no cover
             )
-
         self.logger.info(f"Meta complete URL: {meta_complete_url}")
 
         all_campaign_details = Meta._get_meta_data(self.logger, [], meta_complete_url)
