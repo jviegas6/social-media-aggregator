@@ -228,10 +228,10 @@ def test_valid_get_account_details():
         level="ad",
         fields_list=["ad_id", "ad_name"],
         breakdowns_list=["age"],
-        start_date=["2024-04-01"],
-        end_date=["2024-04-01"],
+        start_date=["2024-04-01", "2024-04-02"],
+        end_date=["2024-04-01", "2024-04-02"],
     )
-    assert len(meta._all_details) == 194
+    assert len(meta._all_details) == 383
 
 
 def test_valid_get_campaigns_start_dates():
@@ -243,5 +243,15 @@ def test_valid_get_campaigns_start_dates():
         meta_url="https://graph.facebook.com/v19.0",
         api_key=meta_api_key,
     )
-    meta.get_campaigns_start_dates(ad_account="act_2573295906125403")
+    meta.get_campaigns_start_dates(
+        ad_account="act_2573295906125403",
+        fields=[
+            "id",
+            "name",
+            "start_time",
+            "stop_time",
+            "objective",
+            "effective_status",
+        ],
+    )
     assert len(meta._all_campaign_details) == 174

@@ -68,8 +68,8 @@ class Meta:
                     temp_result_list = Meta._get_meta_data(logger, [], next_url)
                     result_list.extend(temp_result_list)
 
-            else:
-                logger.info(f"This was the last page of the response")
+                else:
+                    logger.info(f"This was the last page of the response")
 
         return result_list
 
@@ -95,9 +95,25 @@ class Meta:
         self._all_accounts = all_accounts
         return all_accounts
 
-    def get_campaigns_start_dates(self, ad_account: str = None):
+    @validate_arguments((str, True), (list, True), exception_class=MetaInvalidArguments)
+    def get_campaigns_start_dates(self, ad_account: str, fields: list):
         self.logger.info(f"Getting campaign details from Meta API")
-        meta_complete_url = f"{self.meta_url}/{ad_account}/campaigns?fields=id,name,start_time,stop_time,objective,effective_status&access_token={self.api_key}"
+
+        meta_sub_part_url = []
+        if fields:
+            meta_sub_part_url.append(f"fields={','.join(fields)}")
+
+        if self.api_key:
+            meta_sub_part_url.append(f"access_token={self.api_key}")
+
+        if len(meta_sub_part_url) > 0:
+            meta_complete_url = (
+                f"{self.meta_url}/{ad_account}/campaigns?{'&'.join(meta_sub_part_url)}"
+            )
+        else:
+            meta_complete_url = (
+                f"{self.meta_url}/{ad_account}/campaigns"  # pragma: no cover
+            )
         self.logger.info(f"Meta complete URL: {meta_complete_url}")
 
         all_campaign_details = Meta._get_meta_data(self.logger, [], meta_complete_url)
@@ -165,7 +181,7 @@ class Meta:
             meta_complete_url = (
                 f"{self.meta_url}/{api_endpoint}/insights?{'&'.join(meta_sub_part_url)}"
             )
-        else:
+        else:  # pragma: no cover
             meta_complete_url = f"{self.meta_url}/{api_endpoint}/insights"
 
         self.logger.debug(f"Meta complete URL: {meta_complete_url}")

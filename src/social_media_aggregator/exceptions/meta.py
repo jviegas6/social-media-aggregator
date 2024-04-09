@@ -20,5 +20,5 @@ class MetaApiException(BaseMetaException):
             self.error_type = response_payload["error"]["type"]
             complete_message = f"{self.message}. Meta error message: '{self.error_message}'. Meta error type: '{self.error_type}'"
         else:
-            complete_message = self.message
+            complete_message = self.message  # pragma: no cover
         super().__init__(complete_message)
