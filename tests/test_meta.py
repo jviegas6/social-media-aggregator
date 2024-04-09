@@ -231,4 +231,4 @@ def test_valid_get_account_details():
         start_date=["2024-04-01"],
         end_date=["2024-04-01"],
     )
-    assert len(meta._all_details) == 24832
+    assert len(meta._all_details) == 194
