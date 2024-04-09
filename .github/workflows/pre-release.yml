@@ -3,7 +3,7 @@ name: Build and Pre-Release
 on:
   push:
     tags:
-      - 'v*-*'
+      - 'pr-v*-*'
 
 permissions:
   contents: write
