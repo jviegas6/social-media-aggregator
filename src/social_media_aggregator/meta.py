@@ -60,13 +60,15 @@ class Meta:
 
         else:
             logger.info(f"Data retrieval was succesfull")
-            result_list.extend(response_text["data"])
 
-            if "next" in response_text["paging"].keys():
-                logger.info(f"Response has a next page")
-                next_url = response_text["paging"]["next"]
-                temp_result_list = Meta._get_meta_data(logger, [], next_url)
-                result_list.extend(temp_result_list)
+            if "paging" in response_text.keys():
+                if "next" in response_text["paging"].keys():
+                    logger.info(f"Response has a next page")
+                    next_url = response_text["paging"]["next"]
+                    temp_result_list = Meta._get_meta_data(
+                        logger, result_list, next_url
+                    )
+                    result_list.extend(temp_result_list)
 
             else:
                 logger.info(f"This was the last page of the response")
