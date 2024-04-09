@@ -1,10 +1,5 @@
 name: Build and Pre-Release
 
-on:
-  push:
-    tags:
-      - 'v*'
-
 permissions:
   contents: write
   actions: write
