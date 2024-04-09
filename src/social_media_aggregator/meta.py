@@ -55,7 +55,7 @@ class Meta:
             logger.info(f"Rate limit exceeded. Waiting 1 minute")
             time.sleep(60)
             logger.info(f"Retrying request")
-            temp_result_list = Meta.get_meta_data(logger, [], request_url)
+            temp_result_list = Meta._get_meta_data(logger, [], request_url)
             result_list.extend(temp_result_list)
 
         else:
@@ -65,7 +65,7 @@ class Meta:
             if "next" in response_text["paging"].keys():
                 logger.info(f"Response has a next page")
                 next_url = response_text["paging"]["next"]
-                temp_result_list = Meta.get_meta_data(logger, result_list, next_url)
+                temp_result_list = Meta._get_meta_data(logger, result_list, next_url)
                 result_list.extend(temp_result_list)
 
             else:
@@ -158,7 +158,7 @@ class Meta:
 
         self.logger.debug(f"Meta complete URL: {meta_complete_url}")
 
-        all_details = Meta.get_meta_data(self.logger, [], meta_complete_url)
+        all_details = Meta._get_meta_data(self.logger, [], meta_complete_url)
 
         self.logger.debug(f"Lenght of details: {len(all_details)}")
 
