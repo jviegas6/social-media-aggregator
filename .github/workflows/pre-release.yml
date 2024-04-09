@@ -1,5 +1,8 @@
 name: Build and Pre-Release
 
+on:
+  workflow_dispatch:
+
 permissions:
   contents: write
   actions: write
