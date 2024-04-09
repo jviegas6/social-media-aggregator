@@ -25,11 +25,12 @@ def test_invalid_logger_name_2():
 
 
 def test_invalid_logger_level_1():
+    logger = CustomLogger(logger_name="test", logger_level=-5)
     with pytest.raises(LoggerInvalidLevelException) as e:
-        CustomLogger(logger_name="test", logger_level=1)
+        logger.create_logger()
     assert (
         str(e.value)
-        == "Logger error. Argument 'logger_level' with value '1' is not a valid logging level."
+        == "Logger error. Argument 'logger_level' with value '-5' is not a valid logging level."
     )
 
 

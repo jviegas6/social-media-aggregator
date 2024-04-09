@@ -1,6 +1,6 @@
 import logging
 from .exceptions.logger import LoggerInvalidArguments, LoggerInvalidLevelException
-from .helpers.helpers import validate_arguments, LoggingLevel
+from .helpers.helpers import validate_arguments
 
 
 class CustomLogger:
@@ -15,10 +15,7 @@ class CustomLogger:
     """
 
     @validate_arguments(
-        (str, True),
-        (LoggingLevel, True),
-        exception_class=LoggerInvalidArguments,
-        custom_exception_class=LoggerInvalidLevelException,
+        (str, True), (int, True), exception_class=LoggerInvalidArguments
     )
     def __init__(self, logger_name: str, logger_level: int):
         self.logger_name = logger_name
@@ -33,6 +30,17 @@ class CustomLogger:
         return handler
 
     def create_logger(self):
+        if self.logger_level not in [
+            logging.CRITICAL,
+            logging.ERROR,
+            logging.WARNING,
+            logging.INFO,
+            logging.DEBUG,
+        ]:
+            raise LoggerInvalidLevelException(
+                f"Argument 'logger_level' with value '{self.logger_level}' is not a valid logging level."
+            )
+
         logger = logging.getLogger(self.logger_name)
         logger.setLevel(self.logger_level)
         logger.handlers.clear()

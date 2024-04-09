@@ -128,3 +128,107 @@ def test_valid_get_account():
     )
     meta.get_accounts(api_endpoint="me/adaccounts")
     assert len(meta._all_accounts) > 0
+
+
+def test_invalid_get_account_details_error_level():
+    logger = CustomLogger(
+        logger_level=logging.DEBUG, logger_name="test"
+    ).return_logger()
+    meta = Meta(
+        logger=logger,
+        meta_url="https://graph.facebook.com/v19.0",
+        api_key=meta_api_key,
+    )
+    with pytest.raises(MetaApiException) as e:
+        meta.get_account_details(api_endpoint="act_2573295906125403", level="test")
+    assert (
+        str(e.value)
+        == "Meta error. API error occurred. Error 400: Bad Request. Meta error message: '(#100) Param level must be one of {delivery_ad, politicalad, ad, adset, campaign, account}'. Meta error type: 'OAuthException'"
+    )
+
+
+def test_invalid_get_account_details_error_fields_list():
+    fields_list = ["test", "test2"]
+    logger = CustomLogger(
+        logger_level=logging.DEBUG, logger_name="test"
+    ).return_logger()
+    meta = Meta(
+        logger=logger,
+        meta_url="https://graph.facebook.com/v19.0",
+        api_key=meta_api_key,
+    )
+    with pytest.raises(MetaApiException) as e:
+        meta.get_account_details(
+            api_endpoint="act_2573295906125403", level="ad", fields_list=fields_list
+        )
+    assert (
+        str(e.value)
+        == f"Meta error. API error occurred. Error 400: Bad Request. Meta error message: '(#100) {', '.join(fields_list)} {'is' if len(fields_list) == 1 else 'are'} not valid for fields param. please check https://developers.facebook.com/docs/marketing-api/reference/ads-insights/ for all valid values'. Meta error type: 'OAuthException'"
+    )
+
+
+def test_invalid_get_account_details_error_breakdowns_list():
+    breakdowns_list = ["test", "test2"]
+    logger = CustomLogger(
+        logger_level=logging.DEBUG, logger_name="test"
+    ).return_logger()
+    meta = Meta(
+        logger=logger,
+        meta_url="https://graph.facebook.com/v19.0",
+        api_key=meta_api_key,
+    )
+    with pytest.raises(MetaApiException) as e:
+        meta.get_account_details(
+            api_endpoint="act_2573295906125403",
+            level="ad",
+            fields_list=["ad_id", "ad_name"],
+            breakdowns_list=breakdowns_list,
+        )
+    assert (
+        str(e.value)
+        == f"Meta error. API error occurred. Error 400: Bad Request. Meta error message: '(#100) breakdowns[0] must be one of the following values: ad_format_asset, age, app_id, body_asset, call_to_action_asset, coarse_conversion_value, country, description_asset, fidelity_type, gender, hsid, image_asset, impression_device, is_conversion_id_modeled, landing_destination, link_url_asset, mdsa_landing_destination, media_asset_url, media_creator, media_destination_url, media_format, media_origin_url, media_text_content, postback_sequence_index, product_id, redownload, region, skan_campaign_id, skan_conversion_id, skan_version, title_asset, video_asset, dma, frequency_value, hourly_stats_aggregated_by_advertiser_time_zone, hourly_stats_aggregated_by_audience_time_zone, mmm, place_page_id, publisher_platform, platform_position, device_platform, standard_event_content_type, conversion_destination, marketing_messages_btn_name'. Meta error type: 'OAuthException'"
+    )
+
+
+def test_invalid_get_account_details_error_dates():
+    logger = CustomLogger(
+        logger_level=logging.DEBUG, logger_name="test"
+    ).return_logger()
+    meta = Meta(
+        logger=logger,
+        meta_url="https://graph.facebook.com/v19.0",
+        api_key=meta_api_key,
+    )
+    with pytest.raises(MetaApiException) as e:
+        meta.get_account_details(
+            api_endpoint="act_2573295906125403",
+            level="ad",
+            fields_list=["ad_id", "ad_name"],
+            breakdowns_list=["age"],
+            start_date=["2021"],
+            end_date=["2020"],
+        )
+    assert (
+        str(e.value)
+        == "Meta error. API error occurred. Error 400: Bad Request. Meta error message: '(#100) Must be a date representation in the format YYYY-MM-DD'. Meta error type: 'OAuthException'"
+    )
+
+
+def test_valid_get_account_details():
+    logger = CustomLogger(
+        logger_level=logging.DEBUG, logger_name="test"
+    ).return_logger()
+    meta = Meta(
+        logger=logger,
+        meta_url="https://graph.facebook.com/v19.0",
+        api_key=meta_api_key,
+    )
+    meta.get_account_details(
+        api_endpoint="act_2573295906125403",
+        level="ad",
+        fields_list=["ad_id", "ad_name"],
+        breakdowns_list=["age"],
+        start_date=["2024-04-01"],
+        end_date=["2024-04-01"],
+    )
+    assert len(meta._all_details) == 24832
